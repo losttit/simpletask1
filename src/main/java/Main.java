@@ -1,5 +1,5 @@
 import java.util.Scanner;
-// A simple calculator 1.0
+// A simple calculator 2.0
 public class Main {
     static Scanner sc = new Scanner(System.in);
     static String digit;
