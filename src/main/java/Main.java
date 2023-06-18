@@ -1,11 +1,12 @@
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-// A simple calculator 3.0
+// A simple calculator 3.5
 public class Main {
     static Scanner sc = new Scanner(System.in);
     static String digit;
     static Map<String, Integer> roman_values = new HashMap<String, Integer>();
+    static Map<Integer, String> roman_numerals = new HashMap<Integer, String>();
     static {
         roman_values.put("I", 1);
         roman_values.put("II", 2);
@@ -17,9 +18,26 @@ public class Main {
         roman_values.put("VIII", 8);
         roman_values.put("IX", 9);
         roman_values.put("X", 10);
+
+        roman_numerals.put(1, "I");
+        roman_numerals.put(2, "II");
+        roman_numerals.put(3, "III");
+        roman_numerals.put(4, "IV");
+        roman_numerals.put(5, "V");
+        roman_numerals.put(6, "VI");
+        roman_numerals.put(7, "VII");
+        roman_numerals.put(8, "VIII");
+        roman_numerals.put(9, "IX");
+        roman_numerals.put(10, "X");
     }
     private static boolean isRomanNumeral(String input){
         return input.matches("[IVX]+");
+    }
+    private static String convertToRoman(int number){
+        if (number < 1 || number > 10) {
+            return String.valueOf(number);
+        }
+        return roman_numerals.get(number);
     }
     public static String calc(String input) {
         String[] expression = input.split(" ");
@@ -35,21 +53,28 @@ public class Main {
         }
 
         if (dig1 >= 1 && dig1 <= 10 && dig2 >= 1 && dig2 <= 10){
+            int result = 0;
+
             switch (expression[1]){
                 case "+":
-                    digit = String.valueOf(dig1 + dig2);
+                    result = dig1 + dig2;
                     break;
                 case "-":
-                    digit = String.valueOf(dig1 - dig2);
+                    result = dig1 - dig2;
                     break;
                 case "/":
-                    digit = String.valueOf(dig1 / dig2);
+                    result = dig1 / dig2;
                     break;
                 case "*":
-                    digit = String.valueOf(dig1 * dig2);
+                    result = dig1 * dig2;
                     break;
                 default:
                     digit = "Choose one of the signs: +, -, /, *";
+            }
+            if (isRomanNumeral(expression[0]) && isRomanNumeral(expression[2])){
+                digit = convertToRoman(result);
+            } else {
+                digit = String.valueOf(result);
             }
         } else {
             digit = "The number is not in the range from 1 to 10";
