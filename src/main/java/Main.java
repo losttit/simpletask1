@@ -1,7 +1,7 @@
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-// A simple calculator 3.5
+// A simple calculator 4.0 / Final version
 public class Main {
     static Scanner sc = new Scanner(System.in);
     static String digit;
@@ -33,13 +33,15 @@ public class Main {
     private static boolean isRomanNumeral(String input){
         return input.matches("[IVX]+");
     }
-    private static String convertToRoman(int number){
-        if (number < 1 || number > 10) {
-            return String.valueOf(number);
+    private static String convertToRoman(int number) throws Exception {
+        if (number < 1) {
+            throw new Exception("Roman number cannot be negative.");
+        } else if (number > 10) {
+            throw new Exception("Result of a Roman number cannot be greater than 10.");
         }
         return roman_numerals.get(number);
     }
-    public static String calc(String input) {
+    public static String calc(String input) throws Exception {
         String[] expression = input.split(" ");
         int dig1 = 0;
         int dig2 = 0;
@@ -69,7 +71,7 @@ public class Main {
                     result = dig1 * dig2;
                     break;
                 default:
-                    digit = "Choose one of the signs: +, -, /, *";
+                    throw new Exception("Choose one of the signs: +, -, /, *");
             }
             if (isRomanNumeral(expression[0]) && isRomanNumeral(expression[2])){
                 digit = convertToRoman(result);
@@ -77,13 +79,13 @@ public class Main {
                 digit = String.valueOf(result);
             }
         } else {
-            digit = "The number is not in the range from 1 to 10";
+            throw new Exception("The number is not in the range from 1 to 10");
         }
 
         return digit;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws Exception {
         System.out.println(calc(sc.nextLine()));
     }
 }
